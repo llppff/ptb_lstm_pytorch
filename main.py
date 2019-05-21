@@ -14,9 +14,9 @@ parser.add_argument('--data', type=str, default='./data/ptb',
                     help='location of the data corpus')
 parser.add_argument('--model', type=str, default='LSTM',
                     help='type of recurrent net (LSTM, GRU)')
-parser.add_argument('--embedding_size', type=int, default=200,
+parser.add_argument('--embedding_size', type=int, default=1500,
                     help='size of word embeddings')
-parser.add_argument('--num_hid_unit', type=int, default=200,
+parser.add_argument('--num_hid_unit', type=int, default=1500,
                     help='number of hidden units per layer')
 parser.add_argument('--nlayers', type=int, default=2,
                     help='number of layers')
@@ -30,7 +30,7 @@ parser.add_argument('--batch_size', type=int, default=20, metavar='N',
                     help='batch size')
 parser.add_argument('--bptt', type=int, default=35,
                     help='sequence length')
-parser.add_argument('--dropout', type=float, default=0.2,
+parser.add_argument('--dropout', type=float, default=0.65,
                     help='dropout applied to layers (0 = no dropout)')
 parser.add_argument('--tied', action='store_true',
                     help='tie the word embedding and softmax weights')
