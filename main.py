@@ -14,7 +14,7 @@ from adabound import AdaBound
 # 建立解析对象
 parser = argparse.ArgumentParser(description='LSTM PTB Language Model')
 #增加属性
-parser.add_argument('--data', type=str, default='./data/ptb',
+parser.add_argument('--data', type=str, default='ptb_lstm_pytorch/data/ptb',
                     help='location of the data corpus')
 parser.add_argument('--model', type=str, default='LSTM',
                     help='type of recurrent net (LSTM, GRU)')

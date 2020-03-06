@@ -28,9 +28,9 @@ class Corpus(object):
         #   1.如果各组件名首字母不包含’/’，则函数会自动加上
         #   2.如果有一个组件是一个绝对路径，则在它之前的所有组件均会被舍弃
         #   3.如果最后一个组件为空，则生成的路径以一个’/’分隔符结尾
-        self.train = self.tokenize(os.path.join(path, 'ptb_lstm_pytorch/data/ptb/train.txt'))
-        self.valid = self.tokenize(os.path.join(path, 'ptb_lstm_pytorch/data/ptb/valid.txt'))
-        self.test = self.tokenize(os.path.join(path, 'ptb_lstm_pytorch/data/ptb/test.txt'))
+        self.train = self.tokenize(os.path.join(path, 'train.txt'))
+        self.valid = self.tokenize(os.path.join(path, 'valid.txt'))
+        self.test = self.tokenize(os.path.join(path, 'test.txt'))
 
     def tokenize(self, path):
         # assert查条件，不符合就终止程序
