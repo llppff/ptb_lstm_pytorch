@@ -177,25 +177,24 @@ def train():
         optimizer.zero_grad()
         output, hidden = model(data, hidden)
         loss = criterion(output.view(-1, ntokens), targets)
-        print("train loss:" + loss)
-        logging.info('train loss:{5.2f}'.format(loss))
         loss.backward()
 
         torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
         for p in model.parameters():
             p.data.add_(-lr, p.grad.data)
 
-        # total_loss += loss.item()
+        total_loss += loss.item()
 
-        # if batch % args.log_interval == 0 and batch > 0:
-        #     cur_loss = total_loss / args.log_interval
+        if batch % args.log_interval == 0 and batch > 0:
+            train_loss = total_loss / args.log_interval
         #     elapsed = time.time() - start_time
         #     # logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
         #     #         'loss {:5.2f} | ppl {:8.2f}'.format(
         #     #     epoch, batch, len(train_data) // args.bptt, lr,
         #     #     elapsed * 1000 / args.log_interval, cur_loss, math.exp(cur_loss)))
-        #     logging.info('loss:{:5.2f}'.format(cur_loss))
-        #     total_loss = 0
+            print("train_loss:" + str(train_loss))
+            logging.info('train loss:{:5.2f}'.format(train_loss))
+            total_loss = 0
         #     start_time = time.time()
 
 
@@ -204,7 +203,7 @@ lr = args.lr
 
 try:
     for epoch in range(1, args.epochs+1):
-        print("Epoch:" + epoch);
+        print("Epoch:" + str(epoch));
         # epoch_start_time = time.time()
         train()
         val_loss = evaluate(val_data)
@@ -212,8 +211,8 @@ try:
         # logging.info('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
         #         'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
         #                                    val_loss, math.exp(val_loss)))
-        print("valid_loss:" + val_loss)
-        logging.info('valid loss:{5.2f}'.format(val_loss))
+        print("valid_loss:" + str(val_loss))
+        logging.info('valid loss:{:5.2f}'.format(val_loss))
         # logging.info('-' * 89)
         # if not best_val_loss or val_loss < best_val_loss:
         #     with open(args.save, 'wb') as f:
@@ -231,7 +230,7 @@ except KeyboardInterrupt:
 #     model.rnn.flatten_parameters()
 
 test_loss = evaluate(test_data)
-print("test_loss:" + test_loss)
+print("test_loss:" + str(test_loss))
 logging.info('=' * 89)
 # logging.info('| End of training | test loss {:5.2f} | test ppl {:8.2f}'.format(
 #     test_loss, math.exp(test_loss)))
