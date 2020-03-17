@@ -68,16 +68,15 @@ def train():
 
         total_loss += loss.item()
 
-        if batch % args.log_interval == 0 and batch > 0:
-            train_loss = total_loss / args.log_interval
-        #     elapsed = time.time() - start_time
-        #     # logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
-        #     #         'loss {:5.2f} | ppl {:8.2f}'.format(
-        #     #     epoch, batch, len(train_data) // args.bptt, lr,
-        #     #     elapsed * 1000 / args.log_interval, cur_loss, math.exp(cur_loss)))
-        #     print("train_loss:" + str(train_loss))
-            logging.info('train_loss:{:5.2f}'.format(train_loss))
-            total_loss = 0
+        train_loss = total_loss / args.log_interval
+    #     elapsed = time.time() - start_time
+    #     # logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
+    #     #         'loss {:5.2f} | ppl {:8.2f}'.format(
+    #     #     epoch, batch, len(train_data) // args.bptt, lr,
+    #     #     elapsed * 1000 / args.log_interval, cur_loss, math.exp(cur_loss)))
+    #     print("train_loss:" + str(train_loss))
+        logging.info('train_loss:{:5.2f}'.format(train_loss))
+        total_loss = 0
         #     start_time = time.time()
 
 def evaluate(data_source):
@@ -205,6 +204,8 @@ try:
         print("Epoch:" + str(epoch));
         # epoch_start_time = time.time()
         train()
+        test_loss = evaluate(test_data)
+        logging.info('test_loss {:5.2f}'.format(test_loss))
         val_loss = evaluate(val_data)
         # logging.info('-' * 89)
         # logging.info('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
@@ -228,12 +229,12 @@ except KeyboardInterrupt:
 #
 #     model.rnn.flatten_parameters()
 
-test_loss = evaluate(test_data)
+
 # print("test_loss:" + str(test_loss))
 # logging.info('=' * 89)
 # logging.info('| End of training | test loss {:5.2f} | test ppl {:8.2f}'.format(
 #     test_loss, math.exp(test_loss)))
-logging.info('test_loss {:5.2f}'.format(test_loss))
+
 # logging.info('=' * 89)
 
 
