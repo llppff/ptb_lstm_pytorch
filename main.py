@@ -53,7 +53,6 @@ def train():
     ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(args.batch_size)
     for batch, i in enumerate(range(0, train_data.size(0) - 1, args.bptt)):
-        print("batch : " + str(batch))
         data, targets = get_batch(train_data, i)
         hidden = repackage_hidden(hidden)
 
