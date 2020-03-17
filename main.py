@@ -206,12 +206,12 @@ try:
         train()
         test_loss = evaluate(test_data)
         logging.info('test_loss {:5.2f}'.format(test_loss))
-        val_loss = evaluate(val_data)
         # logging.info('-' * 89)
         # logging.info('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
         #         'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
         #                                    val_loss, math.exp(val_loss)))
         # print("valid_loss:" + str(val_loss))
+        val_loss = evaluate(val_data)
         logging.info('valid_loss:{:5.2f}'.format(val_loss))
         # logging.info('-' * 89)
         # if not best_val_loss or val_loss < best_val_loss:
