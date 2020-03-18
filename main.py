@@ -34,7 +34,7 @@ def create_optimizer(args, model_params):
                         weight_decay=args.weight_decay, amsbound=True)
 
 def batchify(data, bsz):
-    nbatch = data.size(0) // bsz
+    nbatch = data.size(0) // bsz#//代表整除
     #data.narrow(a,b,c),a代表对行还是列操作，0为行，1为列，b代表开始的位置，c代表取得个数（取几行/列）
     data = data.narrow(0, 0, nbatch * bsz)
     data = data.view(bsz, -1).t().contiguous()#在调用contiguous()之后，PyTorch会开辟一块新的内存空间存放变换之后的数据,而view是新数据与原数据共享一块内存
@@ -49,9 +49,10 @@ def get_batch(source, i):
 def train():
     model.train()
     total_loss = 0.
-    start_time = time.time()
+    # start_time = time.time()
     ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(args.batch_size)
+    batch = 0
     for batch, i in enumerate(range(0, train_data.size(0) - 1, args.bptt)):
         data, targets = get_batch(train_data, i)
         hidden = repackage_hidden(hidden)
@@ -68,15 +69,15 @@ def train():
 
         total_loss += loss.item()
 
-        train_loss = total_loss / args.log_interval
+    train_loss = total_loss / batch
     #     elapsed = time.time() - start_time
     #     # logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
     #     #         'loss {:5.2f} | ppl {:8.2f}'.format(
     #     #     epoch, batch, len(train_data) // args.bptt, lr,
     #     #     elapsed * 1000 / args.log_interval, cur_loss, math.exp(cur_loss)))
     #     print("train_loss:" + str(train_loss))
-        logging.info('train_loss:{:5.2f}'.format(train_loss))
-        total_loss = 0
+    logging.info('train_loss:{:5.2f}'.format(train_loss))
+    total_loss = 0
         #     start_time = time.time()
 
 def evaluate(data_source):
@@ -143,7 +144,7 @@ parser.add_argument('--clip', type=float, default=0.25,
                     help='gradient clipping')
 parser.add_argument('--epochs', type=int, default=200,
                     help='upper epoch limit')
-parser.add_argument('--batch_size', type=int, default=20, metavar='N',
+parser.add_argument('--batch_size', type=int, default=40, metavar='N',
                     help='batch size')
 parser.add_argument('--bptt', type=int, default=35,
                     help='sequence length')
