@@ -202,7 +202,7 @@ lr = args.lr
 
 try:
     for epoch in range(1, args.epochs+1):
-        print("Epoch:" + str(epoch));
+        logging.info('epoch:{0}'.format(epoch))
         # epoch_start_time = time.time()
         train()
         test_loss = evaluate(test_data)
