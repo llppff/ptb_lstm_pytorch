@@ -63,9 +63,9 @@ def train():
         loss = criterion(output.view(-1, ntokens), targets)
         loss.backward()
 
-        torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
-        for p in model.parameters():
-            p.data.add_(-lr, p.grad.data)
+        # torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
+        # for p in model.parameters():
+        #     p.data.add_(-lr, p.grad.data)
 
         total_loss += loss.item()
 
@@ -140,8 +140,8 @@ parser.add_argument('--nlayers', type=int, default=2,
                     help='number of layers')
 parser.add_argument('--lr', type=float, default=22,
                     help='initial learning rate')
-parser.add_argument('--clip', type=float, default=0.25,
-                    help='gradient clipping')
+# parser.add_argument('--clip', type=float, default=0.25,
+#                     help='gradient clipping')
 parser.add_argument('--epochs', type=int, default=200,
                     help='upper epoch limit')
 parser.add_argument('--batch_size', type=int, default=40, metavar='N',
@@ -171,6 +171,7 @@ parser.add_argument('--beta2', default=0.999, type=float, help='Adam coefficient
 parser.add_argument('--final_lr', default=0.1, type=float,
                     help='final learning rate of AdaBound')
 parser.add_argument('--gamma', default=1e-3, type=float,)
+parser.add_argument('--ita',default=1e-2, type=float)
 parser.add_argument('--weight_decay', default=5e-4, type=float,
                     help='weight decay for optimizers')
 
