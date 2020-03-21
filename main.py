@@ -49,6 +49,7 @@ def get_batch(source, i):
 def train():
     model.train()
     total_loss = 0.
+    total_perplexity = 0
     # start_time = time.time()
     ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(args.batch_size)
@@ -69,9 +70,11 @@ def train():
         #     p.data.add_(-lr, p.grad.data)
 
         total_loss += loss.item()
+        total_perplexity = 2 ** loss.item()
 
     train_loss = total_loss / batch
-    train_perplexity = 2 ** train_loss
+    print("train_loss" +str(train_loss))
+    train_perplexity = total_perplexity / batch
     #     elapsed = time.time() - start_time
     #     # logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
     #     #         'loss {:5.2f} | ppl {:8.2f}'.format(
@@ -80,6 +83,7 @@ def train():
     #     print("train_loss:" + str(train_loss))
     logging.info('train_perplexity:{:5.2f}'.format(train_perplexity))
     total_loss = 0
+    test_perplexity = 0
         #     start_time = time.time()
 
 def evaluate(data_source):
