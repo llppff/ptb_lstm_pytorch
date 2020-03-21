@@ -54,11 +54,11 @@ def train():
     ntokens = len(corpus.dictionary)
     hidden = model.init_hidden(args.batch_size)
     batch = 0
+    optimizer = create_optimizer(args, model.parameters())
     for batch, i in enumerate(range(0, train_data.size(0) - 1, args.bptt)):
         data, targets = get_batch(train_data, i)
         hidden = repackage_hidden(hidden)
 
-        optimizer = create_optimizer(args, model.parameters())
         optimizer.zero_grad()
         output, hidden = model(data, hidden)
         loss = criterion(output.view(-1, ntokens), targets)
