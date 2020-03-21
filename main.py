@@ -63,18 +63,13 @@ def train():
         output, hidden = model(data, hidden)
         loss = criterion(output.view(-1, ntokens), targets)
         loss.backward()
+        print("loss:" + str(loss.item()))
+        total_loss += loss.item()
         optimizer.step()
 
         # torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
         # for p in model.parameters():
         #     p.data.add_(-lr, p.grad.data)
-
-        total_loss += loss.item()
-        print("total_loss" + str(total_loss))
-        # try:
-        #     total_perplexity += 2 ** loss.item()
-        # except:
-        #     continue
 
     train_loss = total_loss / batch
     print("train_loss" + str(train_loss))
@@ -218,16 +213,16 @@ try:
         # epoch_start_time = time.time()
         train()
         test_loss = evaluate(test_data)
-        test_perplexity = 2 ** test_loss
-        logging.info('test_perolexity {:5.2f}'.format(test_perplexity))
+        # test_perplexity = 2 ** test_loss
+        # logging.info('test_perolexity {:5.2f}'.format(test_perplexity))
         # logging.info('-' * 89)
         # logging.info('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
         #         'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
         #                                    val_loss, math.exp(val_loss)))
         # print("valid_loss:" + str(val_loss))
         val_loss = evaluate(val_data)
-        val_perplexity = 2 ** val_loss
-        logging.info('valid_perplexity:{:5.2f}'.format(val_perplexity))
+        # val_perplexity = 2 ** val_loss
+        # logging.info('valid_perplexity:{:5.2f}'.format(val_perplexity))
         # logging.info('-' * 89)
         # if not best_val_loss or val_loss < best_val_loss:
         #     with open(args.save, 'wb') as f:
