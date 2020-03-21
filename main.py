@@ -79,6 +79,7 @@ def train():
     train_loss = total_loss / batch
     print("train_loss" + str(train_loss))
     # train_perplexity = total_perplexity / batch
+    train_perplexity=0
     #     elapsed = time.time() - start_time
     #     # logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
     #     #         'loss {:5.2f} | ppl {:8.2f}'.format(
