@@ -70,10 +70,13 @@ def train():
         #     p.data.add_(-lr, p.grad.data)
 
         total_loss += loss.item()
-        total_perplexity = 2 ** loss.item()
+        try:
+            total_perplexity += 2 ** loss.item()
+        except:
+            continue
 
     train_loss = total_loss / batch
-    print("train_loss" +str(train_loss))
+    print("train_loss" + str(train_loss))
     train_perplexity = total_perplexity / batch
     #     elapsed = time.time() - start_time
     #     # logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
