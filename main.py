@@ -63,20 +63,21 @@ def train():
         loss = criterion(output.view(-1, ntokens), targets)
         loss.backward()
 
-        # torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
+        torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
         # for p in model.parameters():
         #     p.data.add_(-lr, p.grad.data)
 
         total_loss += loss.item()
 
     train_loss = total_loss / batch
+    train_perplexity = 2 ** train_loss
     #     elapsed = time.time() - start_time
     #     # logging.info('| epoch {:3d} | {:5d}/{:5d} batches | lr {:02.2f} | ms/batch {:5.2f} | '
     #     #         'loss {:5.2f} | ppl {:8.2f}'.format(
     #     #     epoch, batch, len(train_data) // args.bptt, lr,
     #     #     elapsed * 1000 / args.log_interval, cur_loss, math.exp(cur_loss)))
     #     print("train_loss:" + str(train_loss))
-    logging.info('train_loss:{:5.2f}'.format(train_loss))
+    logging.info('train_perplexity:{:5.2f}'.format(train_perplexity))
     total_loss = 0
         #     start_time = time.time()
 
@@ -148,7 +149,7 @@ parser.add_argument('--batch_size', type=int, default=40, metavar='N',
                     help='batch size')
 parser.add_argument('--bptt', type=int, default=35,
                     help='sequence length')
-parser.add_argument('--dropout', type=float, default=0.65,
+parser.add_argument('--dropout', type=float, default=0,
                     help='dropout applied to layers (0 = no dropout)')
 parser.add_argument('--tied', action='store_true',
                     help='tie the word embedding and softmax weights')
@@ -207,14 +208,16 @@ try:
         # epoch_start_time = time.time()
         train()
         test_loss = evaluate(test_data)
-        logging.info('test_loss {:5.2f}'.format(test_loss))
+        test_perplexity = 2 ** test_loss
+        logging.info('test_perolexity {:5.2f}'.format(test_perplexity))
         # logging.info('-' * 89)
         # logging.info('| end of epoch {:3d} | time: {:5.2f}s | valid loss {:5.2f} | '
         #         'valid ppl {:8.2f}'.format(epoch, (time.time() - epoch_start_time),
         #                                    val_loss, math.exp(val_loss)))
         # print("valid_loss:" + str(val_loss))
         val_loss = evaluate(val_data)
-        logging.info('valid_loss:{:5.2f}'.format(val_loss))
+        val_perplexity = 2 ** val_loss
+        logging.info('valid_perplexity:{:5.2f}'.format(val_perplexity))
         # logging.info('-' * 89)
         # if not best_val_loss or val_loss < best_val_loss:
         #     with open(args.save, 'wb') as f:
