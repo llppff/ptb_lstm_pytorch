@@ -65,7 +65,7 @@ def train():
         loss.backward()
         print("loss:" + str(loss.item()))
         total_loss += loss.item()
-        # optimizer.step()
+        optimizer.step()
 
         # torch.nn.utils.clip_grad_norm_(model.parameters(), args.clip)
         # for p in model.parameters():
