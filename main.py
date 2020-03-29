@@ -60,7 +60,7 @@ def train():
         hidden = repackage_hidden(hidden)
 
         optimizer.zero_grad()
-        output, hidden = model(data, hidden)
+        output, hidden = model.forward(data, hidden)
         loss = criterion(output.view(-1, ntokens), targets)
         loss.backward()
         print("loss:" + str(loss.item()))
@@ -134,7 +134,7 @@ def initLogging(logFilename):
 # 建立解析对象
 parser = argparse.ArgumentParser(description='LSTM PTB Language Model')
 #增加属性
-parser.add_argument('--data', type=str, default='ptb_lstm_pytorch/data/ptb',
+parser.add_argument('--data', type=str, default='./data/ptb',
                     help='location of the data corpus')
 parser.add_argument('--model', type=str, default='LSTM',
                     help='type of recurrent net (LSTM, GRU)')
@@ -158,6 +158,11 @@ parser.add_argument('--dropout', type=float, default=0,
                     help='dropout applied to layers (0 = no dropout)')
 parser.add_argument('--tied', action='store_true',
                     help='tie the word embedding and softmax weights')
+# tied weights可以理解为参数共享，我是在自编码器中了解的这个概念，由于DAE的编码层和解码层在结构上是互相镜像的，
+# 所以可以让编码器的某一层与解码器中相对应的一层tied weights，也就是参数共享，
+# 这样在网络学习的过程中只需要学习一组权重，解码权值是编码权值的转置，通常情况快下，比学习两个阶段的单独的权重更可靠。
+# 主要原因有两点，一是减少了参数的数量，加速训练过程，二是tied weights可以被看做是一种正则化形式，在实践中能获得更好的性能。
+
 parser.add_argument('--seed', type=int, default=1111,
                     help='random seed')
 parser.add_argument('--seed_gpu', type=int, default=1111,

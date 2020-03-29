@@ -6,7 +6,7 @@ class RNNModel(nn.Module):
         self.drop = nn.Dropout(dropout)
         self.encoder = nn.Embedding(ntoken, ninp)
         # self.rnn = getattr(nn, rnn_type)(ninp, nhid, nlayers, dropout=dropout)
-        self.rnns = [
+        self.rnn = [
         nn.LSTM(ninp if l == 0 else nhid, nhid if l != nlayers - 1 else (ninp if tie_weights else nhid), 1,
                       dropout=0) for l in range(nlayers)]
 
